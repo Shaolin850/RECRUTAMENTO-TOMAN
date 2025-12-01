@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>T ☯ M A N | Recrutamento Free Fire</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--
+        ÍCONE DO SITE (FAVICON)
+        Coloque o arquivo da sua imagem de logo (por exemplo: toman-logo.png)
+        na MESMA PASTA do index.html e ajuste o nome abaixo, se precisar.
+    -->
+    <link rel="icon" href="toman-logo.png" type="image/png">
+
+    <!-- Fonte Google (opcional) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <!-- CSS externo -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <nav class="nav">
+        <div class="logo">
+            <!-- LOGO NO CABEÇALHO -->
+            <img src="toman-logo.png" alt="Logo Toman - Dragão Yin Yang" class="logo-img">
+            <div class="logo-text-wrapper">
+                <div class="logo-text-main">T ☯ M A N</div>
+                <div class="logo-text-sub">FREE FIRE GUILDA</div>
+            </div>
+        </div>
+
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menu">
+            ☰
+        </button>
+
+        <div class="nav-right" id="navRight">
+            <div class="nav-links">
+                <a href="#requisitos">Requisitos</a>
+                <a href="#regras">Regras</a>
+                <a href="#discord">Servidor</a>
+            </div>
+
+            <div class="nav-cta">
+                <span class="badge-ff">COMPETITIVO • RUSH & SUPORTE</span>
+                <button class="btn btn-primary nav-cta-btn" onclick="scrollToForm()">Aplicar Agora</button>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <!-- HERO -->
+    <section class="hero">
+        <div>
+            <div class="hero-badge">
+                <span>Recrutamento Oficial</span>
+            </div>
+            <h1 class="hero-title">
+                Junte-se à guilda <span class="highlight">T☯MAN</span><br>
+                Guilda para Egoistas do cenario  competitivo do Free Fire.
+            </h1>
+            <p class="hero-desc">
+                Se você tem disciplina, sangue frio na trocação e respeita o coletivo,
+                a T ☯ M A N está abrindo vagas limitadas para novos guerreiros e
+                guerreiras no Free Fire. Somente players comprometidos com
+                evolução, treinos e guerras de guilda.
+            </p>
+            <div class="hero-tags">
+                <span class="tag">Idade mínima: 15 anos</span>
+                <span class="tag">Parcialmente ativo</span>
+                <span class="tag">XTreino Segunda à Sexta</span>
+                <span class="tag">Guerras de Guilda</span>
+                <span class="tag">Discord Obrigatório</span>
+            </div>
+            <div class="hero-cta">
+                <button class="btn btn-primary" onclick="scrollToForm()">Preencher Recrutamento</button>
+                <button class="btn btn-outline" onclick="scrollToDiscord()">Entrar no Servidor</button>
+                <p class="hero-meta">
+                    Vagas <strong>limitadas</strong> • Apenas jogadores que respeitam
+                    100% das regras da guilda.
+                </p>
+            </div>
+        </div>
+
+        <!-- CARD / FORM -->
+        <div class="hero-right" id="requisitos">
+            <div class="card-glass">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Formulário de Recrutamento</div>
+                        <div class="card-subtitle">Preencha com atenção. Dados falsos serão desclassificados.</div>
+                    </div>
+                    <!-- LOGO T ☯️ M A N NO FORMULÁRIO -->
+                    <img src="toman-logo.png" alt="Logo Toman no formulário" class="logo-form">
+                </div>
+
+                <form id="recruitForm" class="form-section" novalidate>
+                    <div class="form-group">
+                        <label for="nickname">Nick dentro do Free Fire</label>
+                        <input type="text" id="nickname" name="nickname" placeholder="Ex: TMAN•DragãoX" required>
+                    </div>
+
+                    <!-- SEXO + IDADE -->
+                    <div class="form-group inline-group">
+                        <div>
+                            <label for="sexo">Sexo</label>
+                            <select id="sexo" name="sexo" required>
+                                <option value="">Selecione</option>
+                                <option value="homem">Homem</option>
+                                <option value="mulher">Mulher</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="idade">Idade (mínimo 15)</label>
+                            <input type="number" id="idade" name="idade" min="10" max="80" placeholder="Sua idade real" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group inline-group">
+                        <div>
+                            <label for="funcao">Função principal</label>
+                            <select id="funcao" name="funcao" required>
+                                <option value="">Selecione</option>
+                                <option value="rush">Rushador(a)</option>
+                                <option value="suporte">Suporte</option>
+                                <option value="igar">IGL / Caldeirador(a)</option>
+                                <option value="flex">Flex</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="idFreeFire">ID do Free Fire</label>
+                            <input type="text" id="idFreeFire" name="idFreeFire" placeholder="Ex: 123456789" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group inline-group">
+                        <div>
+                            <label for="rank">Rank atual</label>
+                            <select id="rank" name="rank" required>
+                                <option value="">Selecione</option>
+                                <option value="ouro">Ouro</option>
+                                <option value="platina">Platina</option>
+                                <option value="diamante">Diamante</option>
+                                <option value="mestre">Mestre</option>
+                                <option value="desafiante">Desafiante</option>
+                            </select>
+                        </div>
+                        <div><!-- espaço para futuro campo, se quiser --></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Requisitos básicos</label>
+                        <ul class="requirements-list">
+                            <li>Idade mínima de <strong>15 anos</strong>.</li>
+                            <li>Ser <strong>parcialmente ativo</strong> dentro do jogo.</li>
+                            <li><strong>Não silenciar</strong> o servidor do Discord.</li>
+                            <li>Participar de <strong>todos</strong> os eventos da guilda:
+                                guerras de guilda e <strong>XTREINO de segunda a sexta</strong>.
+                            </li>
+                            <li>Obedecer <strong>todas as regras</strong> da guilda T☯MAN.</li>
+                        </ul>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="aceitoRequisitos" required>
+                            <label for="aceitoRequisitos">
+                                Confirmo que tenho pelo menos <strong>15 anos</strong> e concordo
+                                com todos os requisitos acima.
+                            </label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="aceitoRegras" required>
+                            <label for="aceitoRegras">
+                                Estou ciente de que devo seguir <strong>todas as regras da guilda</strong>
+                                e que posso ser removido em caso de descumprimento.
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="disponibilidade">Disponibilidade (dias/horários)</label>
+                        <textarea id="disponibilidade" name="disponibilidade"
+                                  placeholder="Ex: Segunda a sexta das 19h às 23h, finais de semana à tarde."
+                                  required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sobre">Fale um pouco sobre você e seu estilo de jogo</label>
+                        <textarea id="sobre" name="sobre"
+                                  placeholder="Conte brevemente sua experiência, se joga mais rushado, suporte, competitivo, etc."
+                                  required></textarea>
+                    </div>
+
+                    <div class="form-footer">
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar Aplicação</button>
+                        <div id="formError" class="error-message"></div>
+                        <div id="formSuccess" class="success-message">
+                            Aplicação enviada (simulação). Um líder da guilda irá analisar seus dados.
+                        </div>
+                        <p>
+                            Após enviar seus dados, entre no nosso servidor do Discord e aguarde o contato da liderança
+                            para testes e avaliação final.
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- REGRAS & DISCORD -->
+    <section class="section">
+        <!-- REGRAS DA GUILDA -->
+        <div id="regras">
+            <h2 class="section-title">
+                <span>//</span> Regras da Guilda T☯MAN
+            </h2>
+            <div class="rules-box">
+                <div class="rules-content">
+                    <div class="badge-mode">
+                        <span class="badge-dot"></span>
+                        <span>Disciplina • Respeito • Foco competitivo</span>
+                    </div>
+
+                    <!-- 📜 Regras Gerais da Guilda -->
+                    <h3 class="rules-subtitle">📜 Regras Gerais da Guilda</h3>
+                    <ol class="rules-list">
+                        <li>
+                            <strong>Proibição de Conflitos:</strong><br>
+                            Qualquer discussão de baixa relevância resultará em banimento automático para os envolvidos.
+                        </li>
+                        <li>
+                            <strong>Obediência às Autoridades:</strong><br>
+                            Todos devem seguir rigorosamente as orientações dos Líderes e Vice-líderes.<br>
+                            Membros que ficarem mais de 15 dias sem logar no jogo serão banidos automaticamente.
+                        </li>
+                        <li>
+                            <strong>Comunicação de Ausências:</strong><br>
+                            Caso tenha compromisso pessoal que impeça sua participação em treinos ou campeonatos,
+                            informe o Vice-líder do seu grupo com, no mínimo, 24 horas de antecedência.
+                        </li>
+                        <li>
+                            <strong>Contato com Liderança:</strong><br>
+                            Mensagens privadas (DM) aos Líderes não são permitidas.<br>
+                            Em caso de dúvidas, contate sempre o Vice-líder responsável.
+                        </li>
+                        <li>
+                            <strong>Respeito e Ética:</strong><br>
+                            Mantenha o respeito em todas as interações.<br>
+                            Avalie o nível de suas brincadeiras e, se houver qualquer desentendimento,
+                            os Vice-líderes poderão remover do grupo quem provocar conflito.
+                        </li>
+                        <li>
+                            <strong>Nome de Jogo:</strong><br>
+                            Utilize sempre seu nome de usuário do Free Fire como apelido no servidor.
+                        </li>
+                        <li>
+                            <strong>Recarga de Diamantes:</strong><br>
+                            Para recargas por conta própria, acesse:<br>
+                            <a href="https://recargajogo.com.br/" target="_blank" rel="noopener">
+                                https://recargajogo.com.br/
+                            </a>
+                        </li>
+                        <li>
+                            <strong>Tag da Guilda:</strong><br>
+                            Adote a tag oficial em até 15 dias:<br>
+                            <span class="tag-guilda">ᵀᴹ SEU NOME ☯</span><br>
+                            Caso contrário, haverá banimento automático.
+                        </li>
+                    </ol>
+
+                    <!-- 👥 Regras para Meninos e Meninas -->
+                    <h3 class="rules-subtitle">👥 Regras para Meninos e Meninas</h3>
+                    <ol class="rules-list">
+                        <li>
+                            <strong>Formação de Lines:</strong><br>
+                            Monte suas linhas de equipe para campeonatos.
+                        </li>
+                        <li>
+                            <strong>Entrosamento de Grupo:</strong><br>
+                            Mantenha boa convivência com todos os membros do grupo e da sua line.
+                        </li>
+                        <li>
+                            <strong>Horários de Treino e Campeonato:</strong><br>
+                            Informe ao Vice-líder os dias e horários em que você poderá participar.
+                        </li>
+                    </ol>
+
+                    <!-- 🏆 Premiação -->
+                    <h3 class="rules-subtitle">🏆 Premiação de XTreinos e Campeonatos</h3>
+                    <ul class="rules-list">
+                        <li>
+                            <strong>XTreino:</strong><br>
+                            Cada integrante da line vencedora recebe <strong>1 Passe Booyah</strong>.<br>
+                            O XTreino é separado entre meninas e meninos.
+                        </li>
+                        <li>
+                            <strong>Campeonato:</strong><br>
+                            <strong>R$ 150,00 a R$ 250,00</strong> via PIX para cada integrante da line que ficar em 1º lugar,
+                            dependendo das regras dos campeonatos.
+                        </li>
+                    </ul>
+
+                    <!-- 🛡️ Regras para Vice-líderes e Líderes -->
+                    <h3 class="rules-subtitle">🛡️ Regras para Vice-líderes e Líderes</h3>
+                    <ol class="rules-list">
+                        <li>
+                            <strong>Sugestões e Decisões:</strong><br>
+                            Vice-líderes podem apresentar opiniões, mas a adoção dependerá da avaliação dos Líderes.<br>
+                            Em caso de impasse entre os dois Líderes, será realizada votação interna.
+                        </li>
+                        <li>
+                            <strong>Mediação de Conflitos:</strong><br>
+                            Em desentendimentos entre membros, os Vice-líderes têm autoridade para remover
+                            quem estiver promovendo briga.
+                        </li>
+                        <li>
+                            <strong>Conflitos Internos:</strong><br>
+                            Discussões entre Vice-líderes levam à suspensão imediata. Persistindo,
+                            haverá perda de cargo e banimento automático.
+                        </li>
+                        <li>
+                            <strong>Título de Vice-líder no Jogo:</strong><br>
+                            Apenas três Vice-líderes podem receber o título no jogo
+                            (1 Masculino, 1 Feminino e 1 X).<br>
+                            No entanto, todos os seis Vice-líderes têm igualdade hierárquica dentro da guilda.<br>
+                            Líderes devem permanecer isentos em conflitos internos ou externos.
+                        </li>
+                        <li>
+                            <strong>Recrutamento Substitutivo:</strong><br>
+                            Ao remover um membro, o Vice-líder deverá recrutar um substituto antes de efetivar a remoção
+                            e avisar o grupo.
+                        </li>
+                        <li>
+                            <strong>Monitoramento de Participação:</strong><br>
+                            Todos os Líderes e Vice-líderes devem estar no servidor Discord para acompanhar
+                            treinos e campeonatos.
+                        </li>
+                    </ol>
+
+                    <p class="rules-footer">
+                        💖 Desejamos a todos excelente jogatina e que ajudem nossa guilda a crescer! 💖
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- DISCORD / ENTRAR NO SERVIDOR -->
+        <div id="discord">
+            <h2 class="section-title">
+                <span>//</span> Servidor Oficial no Discord
+            </h2>
+            <div class="discord-box">
+                <div class="discord-content">
+                    <div class="discord-header">
+                        <div>
+                            <div class="discord-name">T ☯ M A N • Central da Guilda</div>
+                            <div class="discord-status">Entrada obrigatória para comunicação, treinos e avisos.</div>
+                        </div>
+                        <div class="badge-mode">
+                            <span class="badge-dot"></span>
+                            <span>Online</span>
+                        </div>
+                    </div>
+
+                    <p>
+                        Toda a organização da guilda acontece dentro do servidor:
+                        escalação para guerras, marcação de XTreino, avisos importantes
+                        e alinhamento de estratégias. Silenciar o servidor ou ignorar
+                        os avisos pode resultar em punição ou remoção.
+                    </p>
+
+                    <div class="discord-footer">
+                        <button class="btn btn-primary" id="btnDiscord">
+                            Entrar no servidor
+                        </button>
+                        <span>Ao entrar, leia o canal de regras e se apresente.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    T ☯ M A N • Free Fire Guilda • Formando Egoistas para o Competitivo..
+</footer>
+
+<!-- JavaScript externo -->
+<script src="script.js"></script>
+</body>
+</html>
