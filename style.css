@@ -9,6 +9,8 @@
     --disabled-color: #666666;
     --warning-color: #ff9800;
     --success-color: #4caf50;
+    --discord-color: #7289da;
+    --discord-hover: #5b6eae;
 }
 
 * {
@@ -224,28 +226,57 @@ header {
     color: var(--text-primary);
 }
 
-/* Botões desabilitados */
-.btn:disabled {
-    opacity: 0.5;
+/* Estilos para botões desabilitados */
+.btn-disabled {
+    opacity: 0.6;
     cursor: not-allowed !important;
-    filter: grayscale(0.7);
+    filter: grayscale(0.5);
     pointer-events: none;
 }
 
-.btn-primary:disabled {
-    background: linear-gradient(135deg, #666, #888) !important;
-    box-shadow: 0 0 10px rgba(102, 102, 102, 0.5) !important;
+/* Estilos específicos para botões do Discord */
+#btnDiscord.btn-disabled,
+#btnDiscordHero.btn-disabled {
+    background: linear-gradient(135deg, #444, #666) !important;
+    color: #999 !important;
+    border-color: #555 !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3) !important;
 }
 
-.btn-outline:disabled {
-    border-color: var(--disabled-color) !important;
-    color: var(--disabled-color) !important;
+/* Estilos para botões do Discord habilitados */
+#btnDiscord:not(.btn-disabled),
+#btnDiscordHero:not(.btn-disabled) {
+    background: linear-gradient(135deg, var(--discord-color), var(--discord-hover)) !important;
+    color: white !important;
+    border-color: var(--discord-color) !important;
+    box-shadow: 0 0 15px rgba(114, 137, 218, 0.5) !important;
 }
 
-.btn:disabled:hover {
+#btnDiscord:not(.btn-disabled):hover,
+#btnDiscordHero:not(.btn-disabled):hover {
+    background: linear-gradient(135deg, var(--discord-hover), #4a5c93) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 0 20px rgba(114, 137, 218, 0.7) !important;
+}
+
+/* Ajuste para botão outline do hero quando habilitado */
+#btnDiscordHero.btn-outline:not(.btn-disabled) {
+    background: transparent !important;
+    color: var(--discord-color) !important;
+    border-color: var(--discord-color) !important;
+}
+
+#btnDiscordHero.btn-outline:not(.btn-disabled):hover {
+    background: rgba(114, 137, 218, 0.1) !important;
+    color: #8fa3ff !important;
+    border-color: #8fa3ff !important;
+}
+
+/* Para garantir que os botões desabilitados não tenham hover */
+.btn:disabled:hover,
+.btn.btn-disabled:hover {
     transform: none !important;
     box-shadow: none !important;
-    filter: grayscale(0.7);
 }
 
 main {
@@ -446,6 +477,11 @@ input:focus, select:focus, textarea:focus {
     border-color: var(--accent-red-soft);
     box-shadow: 0 0 0 1px rgba(229, 9, 20, 0.4);
     background: #080808;
+}
+
+input.invalid {
+    border-color: #ff4444;
+    box-shadow: 0 0 0 1px rgba(255, 68, 68, 0.4);
 }
 
 textarea {
@@ -784,7 +820,7 @@ html {
         align-items: flex-start;
     }
     
-    .btn:disabled {
+    .btn-disabled {
         font-size: 0.75rem;
         padding: 0.5rem 0.8rem;
     }
@@ -812,59 +848,4 @@ html {
     .rules-content, .discord-content {
         font-size: 0.84rem;
     }
-}
-
-/* Adicione estas regras ao final do seu style.css existente */
-
-/* Estilos para botões desabilitados */
-.btn-disabled {
-    opacity: 0.6;
-    cursor: not-allowed !important;
-    filter: grayscale(0.5);
-    pointer-events: none;
-}
-
-/* Estilos específicos para botões do Discord */
-#btnDiscord.btn-disabled,
-#btnDiscordHero.btn-disabled {
-    background: linear-gradient(135deg, #444, #666) !important;
-    color: #999 !important;
-    border-color: #555 !important;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3) !important;
-}
-
-/* Estilos para botões do Discord habilitados */
-#btnDiscord:not(.btn-disabled),
-#btnDiscordHero:not(.btn-disabled) {
-    background: linear-gradient(135deg, #7289da, #5b6eae) !important;
-    color: white !important;
-    border-color: #7289da !important;
-    box-shadow: 0 0 15px rgba(114, 137, 218, 0.5) !important;
-}
-
-#btnDiscord:not(.btn-disabled):hover,
-#btnDiscordHero:not(.btn-disabled):hover {
-    background: linear-gradient(135deg, #5b6eae, #4a5c93) !important;
-    transform: translateY(-1px) !important;
-    box-shadow: 0 0 20px rgba(114, 137, 218, 0.7) !important;
-}
-
-/* Ajuste para botão outline do hero quando habilitado */
-#btnDiscordHero.btn-outline:not(.btn-disabled) {
-    background: transparent !important;
-    color: #7289da !important;
-    border-color: #7289da !important;
-}
-
-#btnDiscordHero.btn-outline:not(.btn-disabled):hover {
-    background: rgba(114, 137, 218, 0.1) !important;
-    color: #8fa3ff !important;
-    border-color: #8fa3ff !important;
-}
-
-/* Para garantir que os botões desabilitados não tenham hover */
-.btn:disabled:hover,
-.btn.btn-disabled:hover {
-    transform: none !important;
-    box-shadow: none !important;
 }
