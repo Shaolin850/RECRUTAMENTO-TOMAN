@@ -7,6 +7,8 @@
     --text-secondary: #b8b8b8;
     --border-soft: #2a2a2a;
     --disabled-color: #666666;
+    --warning-color: #ff9800;
+    --success-color: #4caf50;
 }
 
 * {
@@ -377,6 +379,26 @@ main {
     color: var(--text-secondary);
 }
 
+/* Mensagem de já enviado */
+.already-submitted {
+    background: rgba(255, 152, 0, 0.15);
+    border: 1px solid rgba(255, 152, 0, 0.3);
+    border-radius: 0.6rem;
+    padding: 0.8rem 1rem;
+    margin-bottom: 1rem;
+    color: #ffcc80;
+    font-size: 0.85rem;
+    display: none;
+}
+
+.already-submitted.visible {
+    display: block;
+}
+
+.already-submitted strong {
+    color: #ff9800;
+}
+
 /* Elemento gráfico de ying-yang dentro do card (decorativo) */
 .yin-yang-dragon {
     display: none; /* se quiser mostrar, troque para display:block; e remova o logo-form no HTML */
@@ -412,6 +434,12 @@ input, select, textarea {
     outline: none;
     transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
     font-family: inherit;
+}
+
+input:disabled, select:disabled, textarea:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #0a0a0a;
 }
 
 input:focus, select:focus, textarea:focus {
@@ -457,6 +485,10 @@ textarea {
     margin-top: 0.1rem;
 }
 
+.checkbox-group input:disabled {
+    cursor: not-allowed;
+}
+
 .form-footer {
     margin-top: 0.7rem;
     display: flex;
@@ -466,11 +498,29 @@ textarea {
     color: var(--text-secondary);
 }
 
+.form-warning {
+    background: rgba(255, 152, 0, 0.1);
+    border: 1px solid rgba(255, 152, 0, 0.2);
+    border-radius: 0.5rem;
+    padding: 0.6rem;
+    color: #ffcc80;
+    font-size: 0.7rem;
+    margin-top: 0.5rem;
+}
+
+.form-warning strong {
+    color: #ff9800;
+}
+
 .error-message {
     font-size: 0.78rem;
     color: #ff7b7b;
     margin-top: 0.3rem;
     display: none;
+    background: rgba(255, 0, 0, 0.1);
+    border-radius: 0.4rem;
+    padding: 0.5rem;
+    border: 1px solid rgba(255, 0, 0, 0.2);
 }
 
 .error-visible {
@@ -482,10 +532,11 @@ textarea {
     font-size: 0.8rem;
     color: #69ff9f;
     display: none;
-    padding: 0.5rem;
+    padding: 0.8rem;
     background: rgba(105, 255, 159, 0.1);
-    border-radius: 0.4rem;
+    border-radius: 0.6rem;
     border: 1px solid rgba(105, 255, 159, 0.3);
+    line-height: 1.4;
 }
 
 .success-visible {
@@ -736,6 +787,11 @@ html {
     .btn:disabled {
         font-size: 0.75rem;
         padding: 0.5rem 0.8rem;
+    }
+    
+    .already-submitted {
+        font-size: 0.8rem;
+        padding: 0.6rem;
     }
 }
 
