@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // ----------------------
         // Validações básicas
         // ----------------------
-        const idade = parseInt(document.getElementById("idade").value, 10);
+        const idade = parseInt(document.getElementById("idade").value, 15);
         const aceitoRequisitos = document.getElementById("aceitoRequisitos").checked;
         const aceitoRegras = document.getElementById("aceitoRegras").checked;
 
