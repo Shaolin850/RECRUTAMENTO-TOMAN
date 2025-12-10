@@ -97,6 +97,10 @@
                 </div>
 
                 <form id="recruitForm" class="form-section" novalidate>
+                    <div id="alreadySubmittedWarning" class="already-submitted">
+                        ⚠️ <strong>Você já enviou sua aplicação!</strong> Aguarde o contato da liderança.
+                    </div>
+                    
                     <div class="form-group">
                         <label for="nickname">Nick dentro do Free Fire</label>
                         <input type="text" id="nickname" name="nickname" placeholder="Ex: ᵀᴹ SEU NOME ☯" required>
@@ -131,7 +135,7 @@
                         </div>
                         <div>
                             <label for="idFreeFire">ID do Free Fire</label>
-                            <input type="text" id="idFreeFire" name="idFreeFire" placeholder="Ex: 12345678910" required>
+                            <input type="text" id="idFreeFire" name="idFreeFire" placeholder="Ex: 123456789" required>
                         </div>
                     </div>
 
@@ -144,6 +148,7 @@
                                 <option value="platina">Platina</option>
                                 <option value="diamante">Diamante</option>
                                 <option value="mestre">Mestre</option>
+                                <option value="elite">Elite</option>
                                 <option value="desafiante">Desafiante</option>
                             </select>
                         </div>
@@ -195,14 +200,19 @@
                     </div>
 
                     <div class="form-footer">
-                        <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar Aplicação</button>
+                        <button type="submit" class="btn btn-primary" id="submitBtn" style="width: 100%;">Enviar Aplicação</button>
                         <div id="formError" class="error-message"></div>
                         <div id="formSuccess" class="success-message">
-                            ✅ Aplicação enviada com sucesso! Agora você pode entrar no servidor Discord.
+                            ✅ <strong>Aplicação enviada com sucesso!</strong><br>
+                            Agora você pode entrar no servidor Discord. Aguarde o contato da liderança.
                         </div>
                         <p>
                             Após enviar seus dados, entre no nosso servidor do Discord e aguarde o contato da liderança
                             para testes e avaliação final.
+                        </p>
+                        <p class="form-warning">
+                            ⚠️ <strong>Atenção:</strong> Você só pode enviar o formulário <strong>UMA ÚNICA VEZ</strong>.
+                            Após o envio, não será possível reenviar ou alterar os dados.
                         </p>
                     </div>
                 </form>
@@ -356,7 +366,7 @@
                 <div class="discord-content">
                     <div class="discord-header">
                         <div>
-                            <div class="discord-name">T ☯ M A N • Servidor da Guilda</div>
+                            <div class="discord-name">T ☯ M A N • Central da Guilda</div>
                             <div class="discord-status">Entrada obrigatória para comunicação, treinos e avisos.</div>
                         </div>
                         <div class="badge-mode">
