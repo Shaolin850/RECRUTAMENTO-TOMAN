@@ -193,6 +193,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!form) return;
 
+    // Adiciona validação em tempo real para a idade
+    const idadeInput = document.getElementById("idade");
+    if (idadeInput) {
+        idadeInput.addEventListener("change", function() {
+            const idade = parseInt(this.value);
+            if (idade < 15) {
+                this.setCustomValidity("A idade mínima é 15 anos.");
+            } else {
+                this.setCustomValidity("");
+            }
+        });
+    }
+
     form.addEventListener("submit", async function (e) {
         e.preventDefault();
 
@@ -211,15 +224,39 @@ document.addEventListener("DOMContentLoaded", () => {
         // ----------------------
         // VALIDAÇÕES BÁSICAS
         // ----------------------
-        const idade = parseInt(document.getElementById("idade").value, 15);
-        const aceitoRequisitos = document.getElementById("aceitoRequisitos").checked;
-        const aceitoRegras = document.getElementById("aceitoRegras").checked;
-
-        if (isNaN(idade) || idade < 15) {
-            errorBox.textContent = "Você precisa ter pelo menos 15 anos para entrar na guilda.";
+        
+        // VALIDAÇÃO DA IDADE - CORRIGIDA
+        const idadeInput = document.getElementById("idade");
+        const idadeValor = idadeInput.value.trim();
+        const idade = parseInt(idadeValor, 10);
+        
+        // Verifica se a idade é um número válido
+        if (idadeValor === "" || isNaN(idade)) {
+            errorBox.textContent = "Por favor, insira uma idade válida.";
             errorBox.classList.add("error-visible");
+            idadeInput.focus();
             return;
         }
+        
+        // Verifica se a idade é pelo menos 15
+        if (idade < 15) {
+            errorBox.textContent = "Você precisa ter pelo menos 15 anos para entrar na guilda.";
+            errorBox.classList.add("error-visible");
+            idadeInput.focus();
+            return;
+        }
+        
+        // Verifica se a idade é realista (máximo 80)
+        if (idade > 80) {
+            errorBox.textContent = "Por favor, insira uma idade realista.";
+            errorBox.classList.add("error-visible");
+            idadeInput.focus();
+            return;
+        }
+
+        // Validação dos checkboxes
+        const aceitoRequisitos = document.getElementById("aceitoRequisitos").checked;
+        const aceitoRegras = document.getElementById("aceitoRegras").checked;
 
         if (!aceitoRequisitos || !aceitoRegras) {
             errorBox.textContent = "Você precisa aceitar todos os requisitos e regras para continuar.";
@@ -243,12 +280,13 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!field || !field.value.trim()) {
                 errorBox.textContent = "Preencha todos os campos obrigatórios antes de enviar.";
                 errorBox.classList.add("error-visible");
+                field.focus();
                 return;
             }
         }
 
         // ----------------------
-        // COLETAR DADOS DO FORMULÁRIO
+        // COLETAR DADOS DO FORMULÁRIO - IDADE CORRIGIDA
         // ----------------------
         const nickname = document.getElementById("nickname").value.trim();
         const sexo = document.getElementById("sexo").value.trim();
@@ -257,6 +295,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const rank = document.getElementById("rank").value.trim();
         const disponibilidade = document.getElementById("disponibilidade").value.trim();
         const sobre = document.getElementById("sobre").value.trim();
+        
+        // IDADE CORRETA - usa o valor já validado
+        const idadeFinal = idade; // Já validado acima
 
         // Mostrar loading no botão
         const submitBtn = document.getElementById("submitBtn");
@@ -265,14 +306,14 @@ document.addEventListener("DOMContentLoaded", () => {
         submitBtn.disabled = true;
 
         // ----------------------
-        // MONTAR MENSAGEM PARA O DISCORD
+        // MONTAR MENSAGEM PARA O DISCORD - IDADE CORRIGIDA
         // ----------------------
         const content = [
             "📥 **NOVA APLICAÇÃO DE RECRUTAMENTO - T ☯ M A N**",
             "",
             `**Nick:** ${nickname}`,
             `**Sexo:** ${sexo === "homem" ? "Homem" : "Mulher"}`,
-            `**Idade:** ${idade} anos`,
+            `**Idade:** ${idadeFinal} anos`, // ← IDADE CORRIGIDA AQUI
             `**ID Free Fire:** ${idFreeFire}`,
             `**Função:** ${funcao}`,
             `**Rank:** ${rank}`,
@@ -286,7 +327,8 @@ document.addEventListener("DOMContentLoaded", () => {
             "✅ Aceitou requisitos e regras da guilda.",
             `🕒 **Enviado em:** ${new Date().toLocaleString('pt-BR')}`,
             `🌐 **IP do Usuário:** Coletado pelo sistema`,
-            `🖥️ **Navegador:** ${navigator.userAgent}`
+            `🖥️ **Navegador:** ${navigator.userAgent}`,
+            "*Esta aplicação foi enviada através do site oficial de recrutamento.*"
         ].join("\n");
 
         // ----------------------
@@ -327,11 +369,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 Agora você pode entrar no servidor Discord. Aguarde o contato da liderança.
             `;
             
-            // 5. Restaura o botão de submit
-            submitBtn.textContent = "✓ Formulário já enviado";
-            submitBtn.disabled = true;
-            
-            // 6. Rolagem automática para a seção do Discord
+            // 5. Rolagem automática para a seção do Discord
             setTimeout(() => {
                 const discordSection = document.getElementById("discord");
                 if (discordSection) {
@@ -344,8 +382,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }, 1500);
             
-            // 7. Salva também os dados no sessionStorage para segurança
+            // 6. Salva também os dados no sessionStorage para segurança
             sessionStorage.setItem("toman_last_submission", new Date().toISOString());
+            sessionStorage.setItem("toman_user_age", idadeFinal); // Salva a idade correta
             
         } catch (err) {
             console.error(err);
@@ -371,6 +410,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function limparCacheFormulario() {
     localStorage.removeItem(STORAGE_KEY);
     sessionStorage.removeItem("toman_last_submission");
+    sessionStorage.removeItem("toman_user_age");
     alert("✅ Cache do formulário limpo!\nAgora você pode testar o envio novamente.");
     location.reload();
 }
