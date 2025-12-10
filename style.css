@@ -6,6 +6,7 @@
     --text-primary: #ffffff;
     --text-secondary: #b8b8b8;
     --border-soft: #2a2a2a;
+    --disabled-color: #666666;
 }
 
 * {
@@ -195,6 +196,7 @@ header {
     transition: all 0.2s ease;
     text-transform: uppercase;
     letter-spacing: 0.08em;
+    font-family: inherit;
 }
 
 .btn-primary {
@@ -218,6 +220,30 @@ header {
 .btn-outline:hover {
     border-color: var(--accent-red-soft);
     color: var(--text-primary);
+}
+
+/* Botões desabilitados */
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed !important;
+    filter: grayscale(0.7);
+    pointer-events: none;
+}
+
+.btn-primary:disabled {
+    background: linear-gradient(135deg, #666, #888) !important;
+    box-shadow: 0 0 10px rgba(102, 102, 102, 0.5) !important;
+}
+
+.btn-outline:disabled {
+    border-color: var(--disabled-color) !important;
+    color: var(--disabled-color) !important;
+}
+
+.btn:disabled:hover {
+    transform: none !important;
+    box-shadow: none !important;
+    filter: grayscale(0.7);
 }
 
 main {
@@ -385,6 +411,7 @@ input, select, textarea {
     color: var(--text-primary);
     outline: none;
     transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    font-family: inherit;
 }
 
 input:focus, select:focus, textarea:focus {
@@ -455,6 +482,10 @@ textarea {
     font-size: 0.8rem;
     color: #69ff9f;
     display: none;
+    padding: 0.5rem;
+    background: rgba(105, 255, 159, 0.1);
+    border-radius: 0.4rem;
+    border: 1px solid rgba(105, 255, 159, 0.3);
 }
 
 .success-visible {
@@ -700,6 +731,11 @@ html {
     .discord-footer {
         flex-direction: column;
         align-items: flex-start;
+    }
+    
+    .btn:disabled {
+        font-size: 0.75rem;
+        padding: 0.5rem 0.8rem;
     }
 }
 
