@@ -6,27 +6,76 @@ const DISCORD_WEBHOOK_URL =
 // URL do servidor Discord da guilda
 const DISCORD_INVITE_URL = "https://discord.gg/yd4DZaSKR8";
 
-// Variável global para controlar se o formulário foi enviado
-let formularioEnviado = false;
+// Chave para armazenamento local
+const STORAGE_KEY = "toman_form_submitted";
 
 // ----------------------
-// Funções de rolagem suave
+// Funções de controle de envio único
 // ----------------------
-function scrollToForm() {
-    const section = document.getElementById("requisitos");
-    if (section) section.scrollIntoView({ behavior: "smooth" });
+
+// Verifica se o formulário já foi enviado
+function verificarSeJaEnviou() {
+    const enviado = localStorage.getItem(STORAGE_KEY);
+    return enviado === "true";
 }
 
-function scrollToDiscord() {
-    if (!formularioEnviado) {
-        alert("⚠️ Você precisa enviar sua aplicação primeiro antes de entrar no servidor!");
-        scrollToForm();
-        return;
+// Marca o formulário como enviado no localStorage
+function marcarComoEnviado() {
+    localStorage.setItem(STORAGE_KEY, "true");
+}
+
+// Bloqueia o formulário (torna campos somente leitura)
+function bloquearFormulario() {
+    const form = document.getElementById("recruitForm");
+    if (!form) return;
+    
+    // Desabilita todos os campos de entrada
+    const inputs = form.querySelectorAll('input, select, textarea');
+    inputs.forEach(input => {
+        input.disabled = true;
+    });
+    
+    // Desabilita o botão de submit
+    const submitBtn = document.getElementById("submitBtn");
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "✓ Formulário já enviado";
+        submitBtn.style.background = "linear-gradient(135deg, #666, #888)";
     }
     
-    const section = document.getElementById("discord");
-    if (section) section.scrollIntoView({ behavior: "smooth" });
+    // Mostra mensagem de já enviado
+    const warningMsg = document.getElementById("alreadySubmittedWarning");
+    if (warningMsg) {
+        warningMsg.classList.add("visible");
+    }
 }
+
+// Restaura o estado do formulário quando a página carrega
+function restaurarEstadoFormulario() {
+    const jaEnviou = verificarSeJaEnviou();
+    
+    if (jaEnviou) {
+        // Se já enviou, bloqueia o formulário
+        bloquearFormulario();
+        
+        // E habilita os botões do Discord
+        habilitarBotoesDiscord();
+        
+        // Mostra mensagem de sucesso permanente
+        const successBox = document.getElementById("formSuccess");
+        if (successBox) {
+            successBox.classList.add("success-visible");
+            successBox.innerHTML = `
+                ✅ <strong>Aplicação já enviada!</strong><br>
+                Sua aplicação foi recebida. Entre no servidor Discord e aguarde o contato da liderança.
+            `;
+        }
+    }
+}
+
+// ----------------------
+// Funções de controle dos botões Discord
+// ----------------------
 
 // Função para desabilitar botões do Discord
 function desabilitarBotoesDiscord() {
@@ -46,8 +95,6 @@ function desabilitarBotoesDiscord() {
 
 // Função para habilitar botões do Discord
 function habilitarBotoesDiscord() {
-    formularioEnviado = true;
-    
     const btnDiscordGuilda = document.getElementById("btnDiscord");
     const btnDiscordHero = document.getElementById("btnDiscordHero");
     
@@ -62,9 +109,33 @@ function habilitarBotoesDiscord() {
     }
 }
 
+// ----------------------
+// Funções de rolagem suave
+// ----------------------
+
+function scrollToForm() {
+    const section = document.getElementById("requisitos");
+    if (section) section.scrollIntoView({ behavior: "smooth" });
+}
+
+function scrollToDiscord() {
+    const jaEnviou = verificarSeJaEnviou();
+    
+    if (!jaEnviou) {
+        alert("⚠️ Você precisa enviar sua aplicação primeiro antes de entrar no servidor!");
+        scrollToForm();
+        return;
+    }
+    
+    const section = document.getElementById("discord");
+    if (section) section.scrollIntoView({ behavior: "smooth" });
+}
+
 // Função para abrir o Discord
 function abrirDiscord() {
-    if (!formularioEnviado) {
+    const jaEnviou = verificarSeJaEnviou();
+    
+    if (!jaEnviou) {
         alert("⚠️ Você precisa enviar sua aplicação primeiro antes de entrar no servidor!");
         scrollToForm();
         return;
@@ -76,9 +147,15 @@ function abrirDiscord() {
 // ----------------------
 // Lógica principal
 // ----------------------
+
 document.addEventListener("DOMContentLoaded", () => {
-    // Inicialmente desabilita os botões do Discord
-    desabilitarBotoesDiscord();
+    // Verifica se já enviou o formulário anteriormente
+    restaurarEstadoFormulario();
+    
+    // Se não enviou ainda, desabilita os botões do Discord
+    if (!verificarSeJaEnviou()) {
+        desabilitarBotoesDiscord();
+    }
     
     // Botão "Entrar no Servidor" (seção inferior)
     const btnDiscordGuilda = document.getElementById("btnDiscord");
@@ -121,6 +198,13 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", async function (e) {
         e.preventDefault();
 
+        // Verifica se já enviou anteriormente
+        if (verificarSeJaEnviou()) {
+            errorBox.textContent = "⚠️ Você já enviou sua aplicação. Não é possível enviar novamente.";
+            errorBox.classList.add("error-visible");
+            return;
+        }
+
         // Limpar mensagens
         errorBox.classList.remove("error-visible");
         successBox.classList.remove("success-visible");
@@ -129,7 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // ----------------------
         // Validações básicas
         // ----------------------
-        const idade = parseInt(document.getElementById("idade").value, 15);
+        const idade = parseInt(document.getElementById("idade").value, 10);
         const aceitoRequisitos = document.getElementById("aceitoRequisitos").checked;
         const aceitoRegras = document.getElementById("aceitoRegras").checked;
 
@@ -176,6 +260,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const disponibilidade = document.getElementById("disponibilidade").value.trim();
         const sobre = document.getElementById("sobre").value.trim();
 
+        // Mostrar loading no botão
+        const submitBtn = document.getElementById("submitBtn");
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = "Enviando...";
+        submitBtn.disabled = true;
+
         // ----------------------
         // Montar mensagem para o Discord
         // ----------------------
@@ -196,7 +286,9 @@ document.addEventListener("DOMContentLoaded", () => {
             sobre,
             "",
             "✅ Aceitou requisitos e regras da guilda.",
-            `🕒 **Enviado em:** ${new Date().toLocaleString('pt-BR')}`
+            `🕒 **Enviado em:** ${new Date().toLocaleString('pt-BR')}`,
+            `🌐 **IP do Usuário:** Coletado pelo sistema`,
+            `🖥️ **Navegador:** ${navigator.userAgent}`
         ].join("\n");
 
         // ----------------------
@@ -209,7 +301,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: JSON.stringify({
                     content: content,
                     username: "Recrutamento T ☯ M A N",
-                    avatar_url: "" // opcional: URL pública de uma imagem para o avatar do webhook
+                    avatar_url: ""
                 })
             });
 
@@ -217,31 +309,57 @@ document.addEventListener("DOMContentLoaded", () => {
                 throw new Error(`Erro ao enviar para o Discord: ${res.status}`);
             }
 
-            // Sucesso - HABILITA OS BOTÕES DO DISCORD
-            successBox.classList.add("success-visible");
+            // SUCESSO - Marca como enviado no localStorage
+            marcarComoEnviado();
+            
+            // Bloqueia o formulário para evitar novo envio
+            bloquearFormulario();
+            
+            // Habilita os botões do Discord
             habilitarBotoesDiscord();
             
             // Mostra mensagem de sucesso
-            setTimeout(() => {
-                successBox.scrollIntoView({ behavior: "smooth", block: "center" });
-            }, 500);
+            successBox.classList.add("success-visible");
             
-            // Rolagem automática para a seção do Discord após 2 segundos
-            setTimeout(() => {
-                const section = document.getElementById("discord");
-                if (section) section.scrollIntoView({ behavior: "smooth" });
-            }, 2000);
+            // Restaura o botão
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = true;
             
-            // Opcional: reseta o formulário após 3 segundos
+            // Rolagem automática para a seção do Discord após 1.5 segundos
             setTimeout(() => {
-                form.reset();
-            }, 3000);
+                const discordSection = document.getElementById("discord");
+                if (discordSection) {
+                    discordSection.scrollIntoView({ behavior: "smooth" });
+                    
+                    // Mostra alerta de instruções
+                    setTimeout(() => {
+                        alert("✅ Aplicação enviada com sucesso!\n\nAgora clique em 'Entrar no servidor' para acessar o Discord da guilda.\n\nNo Discord:\n1. Leia as regras no canal #regras\n2. Se apresente no canal #apresentação\n3. Aguarde o contato da liderança");
+                    }, 800);
+                }
+            }, 1500);
             
         } catch (err) {
             console.error(err);
+            
+            // Restaura o botão
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+            
             errorBox.textContent =
                 "Ocorreu um erro ao enviar sua aplicação. Tente novamente mais tarde.";
             errorBox.classList.add("error-visible");
         }
     });
 });
+
+// ----------------------
+// Função para limpar o cache (apenas para desenvolvimento)
+// ----------------------
+function limparCacheFormulario() {
+    localStorage.removeItem(STORAGE_KEY);
+    alert("Cache do formulário limpo! Você pode enviar novamente.");
+    location.reload();
+}
+
+// Para uso do desenvolvedor: adicione este comando no console do navegador:
+// limparCacheFormulario()
