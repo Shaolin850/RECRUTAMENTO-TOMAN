@@ -59,7 +59,7 @@
             </div>
             <h1 class="hero-title">
                 Junte-se à guilda <span class="highlight">T☯MAN</span><br>
-                Guilda para Egoistas do cenario  competitivo do Free Fire.
+                Guilda para Egoistas do cenario competitivo do Free Fire.
             </h1>
             <p class="hero-desc">
                 Se você tem disciplina, sangue frio na trocação e respeita o coletivo,
@@ -76,7 +76,7 @@
             </div>
             <div class="hero-cta">
                 <button class="btn btn-primary" onclick="scrollToForm()">Preencher Recrutamento</button>
-                <button class="btn btn-outline" onclick="scrollToDiscord()">Entrar no Servidor</button>
+                <button class="btn btn-outline" id="btnDiscordHero" disabled>⏳ Envie aplicação primeiro</button>
                 <p class="hero-meta">
                     Vagas <strong>limitadas</strong> • Apenas jogadores que respeitam
                     100% das regras da guilda.
@@ -198,7 +198,7 @@
                         <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar Aplicação</button>
                         <div id="formError" class="error-message"></div>
                         <div id="formSuccess" class="success-message">
-                            Aplicação enviada (simulação). Um líder da guilda irá analisar seus dados.
+                            ✅ Aplicação enviada com sucesso! Agora você pode entrar no servidor Discord.
                         </div>
                         <p>
                             Após enviar seus dados, entre no nosso servidor do Discord e aguarde o contato da liderança
@@ -373,8 +373,8 @@
                     </p>
 
                     <div class="discord-footer">
-                        <button class="btn btn-primary" id="btnDiscord">
-                            Entrar no servidor
+                        <button class="btn btn-primary" id="btnDiscord" disabled>
+                            ⏳ Envie sua aplicação primeiro
                         </button>
                         <span>Ao entrar, leia o canal de regras e se apresente.</span>
                     </div>
