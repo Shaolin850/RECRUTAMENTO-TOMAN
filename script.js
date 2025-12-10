@@ -1,5 +1,5 @@
 // URL DO WEBHOOK DO DISCORD
-// Já configurado para o canal de recrutamento T ☯️ M A N
+// Já configurado para o canal de recrutamento T ☯ M A N
 const DISCORD_WEBHOOK_URL =
     "https://discord.com/api/webhooks/1423342852976672809/UWdtBPcdbmKKcsd3wRJ3NbjNfZ_lqYjrXq-IfdKzDVbtZWvj-x9BgZjREKo3yLybNpsf";
 
@@ -180,7 +180,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Montar mensagem para o Discord
         // ----------------------
         const content = [
-            "📥 **NOVA APLICAÇÃO DE RECRUTAMENTO - T ☯️ M A N**",
+            "📥 **NOVA APLICAÇÃO DE RECRUTAMENTO - T ☯ M A N**",
             "",
             `**Nick:** ${nickname}`,
             `**Sexo:** ${sexo === "homem" ? "Homem" : "Mulher"}`,
@@ -208,7 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     content: content,
-                    username: "Recrutamento T ☯️ M A N",
+                    username: "Recrutamento T ☯ M A N",
                     avatar_url: "" // opcional: URL pública de uma imagem para o avatar do webhook
                 })
             });
