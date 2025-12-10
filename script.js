@@ -1,5 +1,5 @@
 // URL DO WEBHOOK DO DISCORD
-// Já configurado para o canal de recrutamento T ☯ M A N
+// Já configurado para o canal de recrutamento T ☯️ M A N
 const DISCORD_WEBHOOK_URL =
     "https://discord.com/api/webhooks/1423342852976672809/UWdtBPcdbmKKcsd3wRJ3NbjNfZ_lqYjrXq-IfdKzDVbtZWvj-x9BgZjREKo3yLybNpsf";
 
@@ -10,10 +10,9 @@ const DISCORD_INVITE_URL = "https://discord.gg/yd4DZaSKR8";
 const STORAGE_KEY = "toman_form_submitted";
 
 // ----------------------
-// Funções de controle de envio único
+// FUNÇÃO PRINCIPAL: Verifica se o formulário já foi enviado
 // ----------------------
 
-// Verifica se o formulário já foi enviado
 function verificarSeJaEnviou() {
     const enviado = localStorage.getItem(STORAGE_KEY);
     return enviado === "true";
@@ -24,8 +23,68 @@ function marcarComoEnviado() {
     localStorage.setItem(STORAGE_KEY, "true");
 }
 
-// Bloqueia o formulário (torna campos somente leitura)
-function bloquearFormulario() {
+// ----------------------
+// FUNÇÃO PARA HABILITAR BOTÕES DO DISCORD PERMANENTEMENTE
+// ----------------------
+
+function habilitarBotoesDiscordPermanentemente() {
+    // Habilita o botão do Discord na seção inferior
+    const btnDiscordGuilda = document.getElementById("btnDiscord");
+    if (btnDiscordGuilda) {
+        btnDiscordGuilda.disabled = false;
+        btnDiscordGuilda.innerHTML = "Entrar no servidor";
+        btnDiscordGuilda.classList.remove("btn-disabled");
+        
+        // Remove qualquer listener anterior e adiciona o novo
+        btnDiscordGuilda.replaceWith(btnDiscordGuilda.cloneNode(true));
+        const newBtn = document.getElementById("btnDiscord");
+        newBtn.addEventListener("click", function() {
+            window.open(DISCORD_INVITE_URL, "_blank");
+        });
+    }
+    
+    // Habilita o botão do Discord no hero
+    const btnDiscordHero = document.getElementById("btnDiscordHero");
+    if (btnDiscordHero) {
+        btnDiscordHero.disabled = false;
+        btnDiscordHero.innerHTML = "Entrar no Servidor";
+        btnDiscordHero.classList.remove("btn-disabled");
+        
+        // Remove qualquer listener anterior e adiciona o novo
+        btnDiscordHero.replaceWith(btnDiscordHero.cloneNode(true));
+        const newBtnHero = document.getElementById("btnDiscordHero");
+        newBtnHero.addEventListener("click", function() {
+            window.open(DISCORD_INVITE_URL, "_blank");
+        });
+    }
+}
+
+// ----------------------
+// FUNÇÃO PARA DESABILITAR BOTÕES DO DISCORD (apenas se não enviou)
+// ----------------------
+
+function desabilitarBotoesDiscord() {
+    const btnDiscordGuilda = document.getElementById("btnDiscord");
+    const btnDiscordHero = document.getElementById("btnDiscordHero");
+    
+    if (btnDiscordGuilda) {
+        btnDiscordGuilda.disabled = true;
+        btnDiscordGuilda.innerHTML = "⏳ Envie sua aplicação primeiro";
+        btnDiscordGuilda.classList.add("btn-disabled");
+    }
+    
+    if (btnDiscordHero) {
+        btnDiscordHero.disabled = true;
+        btnDiscordHero.innerHTML = "⏳ Envie aplicação primeiro";
+        btnDiscordHero.classList.add("btn-disabled");
+    }
+}
+
+// ----------------------
+// FUNÇÃO PARA BLOQUEAR O FORMULÁRIO APÓS ENVIO
+// ----------------------
+
+function bloquearFormularioAposEnvio() {
     const form = document.getElementById("recruitForm");
     if (!form) return;
     
@@ -50,16 +109,19 @@ function bloquearFormulario() {
     }
 }
 
-// Restaura o estado do formulário quando a página carrega
-function restaurarEstadoFormulario() {
+// ----------------------
+// FUNÇÃO PARA VERIFICAR E RESTAURAR ESTADO AO CARREGAR A PÁGINA
+// ----------------------
+
+function verificarEstadoAoCarregar() {
     const jaEnviou = verificarSeJaEnviou();
     
     if (jaEnviou) {
         // Se já enviou, bloqueia o formulário
-        bloquearFormulario();
+        bloquearFormularioAposEnvio();
         
-        // E habilita os botões do Discord
-        habilitarBotoesDiscord();
+        // Habilita os botões do Discord PERMANENTEMENTE
+        habilitarBotoesDiscordPermanentemente();
         
         // Mostra mensagem de sucesso permanente
         const successBox = document.getElementById("formSuccess");
@@ -70,47 +132,14 @@ function restaurarEstadoFormulario() {
                 Sua aplicação foi recebida. Entre no servidor Discord e aguarde o contato da liderança.
             `;
         }
+    } else {
+        // Se NÃO enviou, desabilita os botões do Discord
+        desabilitarBotoesDiscord();
     }
 }
 
 // ----------------------
-// Funções de controle dos botões Discord
-// ----------------------
-
-// Função para desabilitar botões do Discord
-function desabilitarBotoesDiscord() {
-    const btnDiscordGuilda = document.getElementById("btnDiscord");
-    const btnDiscordHero = document.getElementById("btnDiscordHero");
-    
-    if (btnDiscordGuilda) {
-        btnDiscordGuilda.disabled = true;
-        btnDiscordGuilda.innerHTML = "⏳ Envie sua aplicação primeiro";
-    }
-    
-    if (btnDiscordHero) {
-        btnDiscordHero.disabled = true;
-        btnDiscordHero.innerHTML = "⏳ Envie aplicação primeiro";
-    }
-}
-
-// Função para habilitar botões do Discord
-function habilitarBotoesDiscord() {
-    const btnDiscordGuilda = document.getElementById("btnDiscord");
-    const btnDiscordHero = document.getElementById("btnDiscordHero");
-    
-    if (btnDiscordGuilda) {
-        btnDiscordGuilda.disabled = false;
-        btnDiscordGuilda.innerHTML = "Entrar no servidor";
-    }
-    
-    if (btnDiscordHero) {
-        btnDiscordHero.disabled = false;
-        btnDiscordHero.innerHTML = "Entrar no Servidor";
-    }
-}
-
-// ----------------------
-// Funções de rolagem suave
+// FUNÇÕES DE ROLAGEM SUAVE
 // ----------------------
 
 function scrollToForm() {
@@ -131,47 +160,14 @@ function scrollToDiscord() {
     if (section) section.scrollIntoView({ behavior: "smooth" });
 }
 
-// Função para abrir o Discord
-function abrirDiscord() {
-    const jaEnviou = verificarSeJaEnviou();
-    
-    if (!jaEnviou) {
-        alert("⚠️ Você precisa enviar sua aplicação primeiro antes de entrar no servidor!");
-        scrollToForm();
-        return;
-    }
-    
-    window.open(DISCORD_INVITE_URL, "_blank");
-}
-
 // ----------------------
-// Lógica principal
+// LÓGICA PRINCIPAL QUANDO A PÁGINA CARREGA
 // ----------------------
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Verifica se já enviou o formulário anteriormente
-    restaurarEstadoFormulario();
+    // Verifica o estado atual ao carregar a página
+    verificarEstadoAoCarregar();
     
-    // Se não enviou ainda, desabilita os botões do Discord
-    if (!verificarSeJaEnviou()) {
-        desabilitarBotoesDiscord();
-    }
-    
-    // Botão "Entrar no Servidor" (seção inferior)
-    const btnDiscordGuilda = document.getElementById("btnDiscord");
-    if (btnDiscordGuilda) {
-        btnDiscordGuilda.addEventListener("click", abrirDiscord);
-    }
-    
-    // Botão "Entrar no Servidor" no hero
-    const btnDiscordHero = document.getElementById("btnDiscordHero");
-    if (btnDiscordHero) {
-        btnDiscordHero.addEventListener("click", function(e) {
-            e.preventDefault();
-            abrirDiscord();
-        });
-    }
-
     // Menu mobile (hambúrguer)
     const navToggle = document.getElementById("navToggle");
     const navRight = document.getElementById("navRight");
@@ -188,7 +184,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Formulário de recrutamento
+    // ----------------------
+    // FORMULÁRIO DE RECRUTAMENTO
+    // ----------------------
     const form = document.getElementById("recruitForm");
     const errorBox = document.getElementById("formError");
     const successBox = document.getElementById("formSuccess");
@@ -211,9 +209,9 @@ document.addEventListener("DOMContentLoaded", () => {
         errorBox.textContent = "";
 
         // ----------------------
-        // Validações básicas
+        // VALIDAÇÕES BÁSICAS
         // ----------------------
-        const idade = parseInt(document.getElementById("idade").value, 10);
+        const idade = parseInt(document.getElementById("idade").value, 15);
         const aceitoRequisitos = document.getElementById("aceitoRequisitos").checked;
         const aceitoRegras = document.getElementById("aceitoRegras").checked;
 
@@ -250,7 +248,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // ----------------------
-        // Coletar dados do formulário
+        // COLETAR DADOS DO FORMULÁRIO
         // ----------------------
         const nickname = document.getElementById("nickname").value.trim();
         const sexo = document.getElementById("sexo").value.trim();
@@ -267,7 +265,7 @@ document.addEventListener("DOMContentLoaded", () => {
         submitBtn.disabled = true;
 
         // ----------------------
-        // Montar mensagem para o Discord
+        // MONTAR MENSAGEM PARA O DISCORD
         // ----------------------
         const content = [
             "📥 **NOVA APLICAÇÃO DE RECRUTAMENTO - T ☯ M A N**",
@@ -292,7 +290,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ].join("\n");
 
         // ----------------------
-        // Enviar para o webhook do Discord
+        // ENVIAR PARA O WEBHOOK DO DISCORD
         // ----------------------
         try {
             const res = await fetch(DISCORD_WEBHOOK_URL, {
@@ -309,23 +307,31 @@ document.addEventListener("DOMContentLoaded", () => {
                 throw new Error(`Erro ao enviar para o Discord: ${res.status}`);
             }
 
-            // SUCESSO - Marca como enviado no localStorage
+            // ----------------------
+            // SUCESSO TOTAL!
+            // ----------------------
+            
+            // 1. Marca como enviado no localStorage (PERMANENTE)
             marcarComoEnviado();
             
-            // Bloqueia o formulário para evitar novo envio
-            bloquearFormulario();
+            // 2. Bloqueia o formulário para evitar novo envio
+            bloquearFormularioAposEnvio();
             
-            // Habilita os botões do Discord
-            habilitarBotoesDiscord();
+            // 3. HABILITA OS BOTÕES DO DISCORD PERMANENTEMENTE
+            habilitarBotoesDiscordPermanentemente();
             
-            // Mostra mensagem de sucesso
+            // 4. Mostra mensagem de sucesso
             successBox.classList.add("success-visible");
+            successBox.innerHTML = `
+                ✅ <strong>Aplicação enviada com sucesso!</strong><br>
+                Agora você pode entrar no servidor Discord. Aguarde o contato da liderança.
+            `;
             
-            // Restaura o botão
-            submitBtn.textContent = originalText;
+            // 5. Restaura o botão de submit
+            submitBtn.textContent = "✓ Formulário já enviado";
             submitBtn.disabled = true;
             
-            // Rolagem automática para a seção do Discord após 1.5 segundos
+            // 6. Rolagem automática para a seção do Discord
             setTimeout(() => {
                 const discordSection = document.getElementById("discord");
                 if (discordSection) {
@@ -333,31 +339,39 @@ document.addEventListener("DOMContentLoaded", () => {
                     
                     // Mostra alerta de instruções
                     setTimeout(() => {
-                        alert("✅ Aplicação enviada com sucesso!\n\nAgora clique em 'Entrar no servidor' para acessar o Discord da guilda.\n\nNo Discord:\n1. Leia as regras no canal #regras\n2. Se apresente no canal #apresentação\n3. Aguarde o contato da liderança");
+                        alert("✅ APLICAÇÃO ENVIADA COM SUCESSO!\n\nAgora clique em 'ENTRAR NO SERVIDOR' para acessar o Discord da guilda.\n\n⚠️ IMPORTANTE: Você só precisa enviar UMA VEZ!\n\nNo Discord:\n1. Leia as regras no canal #regras\n2. Se apresente no canal #apresentação\n3. Aguarde o contato da liderança");
                     }, 800);
                 }
             }, 1500);
             
+            // 7. Salva também os dados no sessionStorage para segurança
+            sessionStorage.setItem("toman_last_submission", new Date().toISOString());
+            
         } catch (err) {
             console.error(err);
             
-            // Restaura o botão
+            // Restaura o botão em caso de erro
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
             
             errorBox.textContent =
                 "Ocorreu um erro ao enviar sua aplicação. Tente novamente mais tarde.";
             errorBox.classList.add("error-visible");
+            
+            // Mostra detalhes do erro no console
+            console.error("Erro detalhado:", err.message);
         }
     });
 });
 
 // ----------------------
-// Função para limpar o cache (apenas para desenvolvimento)
+// FUNÇÃO PARA DESENVOLVEDOR: LIMPAR CACHE (APENAS PARA TESTES)
 // ----------------------
+
 function limparCacheFormulario() {
     localStorage.removeItem(STORAGE_KEY);
-    alert("Cache do formulário limpo! Você pode enviar novamente.");
+    sessionStorage.removeItem("toman_last_submission");
+    alert("✅ Cache do formulário limpo!\nAgora você pode testar o envio novamente.");
     location.reload();
 }
 
