@@ -4,7 +4,7 @@ const DISCORD_WEBHOOK_URL =
     "https://discord.com/api/webhooks/1423342852976672809/UWdtBPcdbmKKcsd3wRJ3NbjNfZ_lqYjrXq-IfdKzDVbtZWvj-x9BgZjREKo3yLybNpsf";
 
 // URL do servidor Discord da guilda
-const DISCORD_INVITE_URL = "https://discord.gg/yd4DZaSKR8";
+const DISCORD_INVITE_URL = "https://discord.gg/cg3TAQVVAX";
 
 // Chave para armazenamento local
 const STORAGE_KEY = "toman_form_submitted";
